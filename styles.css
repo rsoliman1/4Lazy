@@ -1,0 +1,337 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f0f13;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 40px 20px 40px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -2px;
+}
+
+.accent {
+    color: #7c6ff7;
+}
+
+.tagline {
+    color: #666;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+/* Mic Section */
+.mic-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.mic-btn {
+    background: linear-gradient(135deg, #7c6ff7, #a855f7);
+    color: white;
+    border: none;
+    padding: 20px 48px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 32px rgba(124, 111, 247, 0.4);
+    transition: all 0.2s ease;
+}
+
+.mic-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(124, 111, 247, 0.5);
+}
+
+.mic-btn.listening {
+    background: linear-gradient(135deg, #ff4444, #ff6b6b);
+    box-shadow: 0 8px 32px rgba(255, 68, 68, 0.4);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+}
+
+.transcript {
+    margin-top: 16px;
+    color: #888;
+    font-style: italic;
+    font-size: 14px;
+    min-height: 20px;
+    padding: 0 20px;
+}
+
+.status {
+    margin-top: 8px;
+    color: #7c6ff7;
+    font-size: 13px;
+    min-height: 18px;
+}
+
+/* Cards */
+.cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card {
+    background: #1a1a24;
+    border: 1px solid #2a2a38;
+    border-radius: 16px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.card:hover {
+    background: #22223a;
+    border-color: #7c6ff7;
+    transform: translateX(4px);
+}
+
+.card.updated {
+    border-color: #7c6ff7;
+    background: #1e1b3a;
+}
+
+.card-icon {
+    font-size: 28px;
+    width: 48px;
+    height: 48px;
+    background: #0f0f13;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.card-info p {
+    font-size: 13px;
+    color: #666;
+}
+
+.card-arrow {
+    font-size: 24px;
+    color: #444;
+}
+
+/* Category Pages */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #7c6ff7;
+    text-decoration: none;
+    font-size: 15px;
+    margin-bottom: 24px;
+    font-weight: 500;
+}
+
+.back-btn:hover {
+    opacity: 0.8;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.page-icon {
+    font-size: 32px;
+}
+
+.page-header h2 {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    margin-top: 24px;
+}
+
+.entry-card {
+    background: #1a1a24;
+    border: 1px solid #2a2a38;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+}
+
+.entry-date {
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.entry-item {
+    font-size: 15px;
+    color: #ddd;
+    padding: 10px 0 10px 14px;
+    border-bottom: 1px solid #2a2a38;
+    border-left: 3px solid #7c6ff7;
+    display: flex;
+    align-items: center;
+}
+
+.entry-item:last-child {
+    border-bottom: none;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #444;
+}
+
+.empty-state .empty-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.empty-state p {
+    font-size: 15px;
+}
+
+.google-connect {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.google-btn {
+    background: #1a1a24;
+    color: #fff;
+    border: 1px solid #2a2a38;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.google-btn:hover {
+    border-color: #7c6ff7;
+    background: #22223a;
+}
+
+.google-btn.connected {
+    border-color: #22c55e;
+    color: #22c55e;
+}
+
+.google-status {
+    font-size: 12px;
+    color: #555;
+    margin-top: 8px;
+}
+
+/* Contacts page */
+.contacts-actions {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contact-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 12px 14px;
+}
+
+.contact-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.contact-meta {
+    font-size: 13px;
+    color: #888;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%) translateY(20px);
+    background: #1a1a24;
+    border: 1px solid #2a2a38;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    max-width: 420px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast-success {
+    border-color: #22c55e;
+}
+
+.toast-error {
+    border-color: #ef4444;
+}

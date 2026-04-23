@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4Lazy</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://apis.google.com/js/api.js" async defer></script>
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <div class="header">
+            <h1>4<span class="accent">Lazy</span></h1>
+            <p class="tagline">Too lazy to type? Just talk.</p>
+        </div>
+
+        <!-- Mic Button -->
+        <!-- Mic Button -->
+        <div class="mic-section">
+            <button id="micButton" class="mic-btn">
+                <span class="mic-icon">🎤</span>
+                <span class="mic-text">Tap to Speak</span>
+            </button>
+            <p id="transcript" class="transcript"></p>
+            <p id="status" class="status"></p>
+        </div>
+
+        <!-- Category Cards -->
+        <div class="cards-grid">
+            <a href="calendar.html" class="card" id="card-calendar">
+                <div class="card-icon">📅</div>
+                <div class="card-info">
+                    <h3>Calendar</h3>
+                    <p id="count-calendar">0 events</p>
+                </div>
+                <div class="card-arrow">›</div>
+            </a>
+            <a href="grocery.html" class="card" id="card-grocery">
+                <div class="card-icon">🛒</div>
+                <div class="card-info">
+                    <h3>Grocery</h3>
+                    <p id="count-grocery">0 items</p>
+                </div>
+                <div class="card-arrow">›</div>
+            </a>
+            <a href="reminders.html" class="card" id="card-reminders">
+                <div class="card-icon">🔔</div>
+                <div class="card-info">
+                    <h3>Reminders</h3>
+                    <p id="count-reminders">0 reminders</p>
+                </div>
+                <div class="card-arrow">›</div>
+            </a>
+            <a href="todos.html" class="card" id="card-todos">
+                <div class="card-icon">✅</div>
+                <div class="card-info">
+                    <h3>To-Dos</h3>
+                    <p id="count-todos">0 tasks</p>
+                </div>
+                <div class="card-arrow">›</div>
+            </a>
+            <a href="notes.html" class="card" id="card-notes">
+                <div class="card-icon">📝</div>
+                <div class="card-info">
+                    <h3>Notes</h3>
+                    <p id="count-notes">0 notes</p>
+                </div>
+                <div class="card-arrow">›</div>
+            </a>
+            <a href="contacts.html" class="card" id="card-contacts">
+                <div class="card-icon">👥</div>
+                <div class="card-info">
+                    <h3>Contacts</h3>
+                    <p id="count-contacts">0 contacts</p>
+                </div>
+                <div class="card-arrow">›</div>
+            </a>
+        </div>
+        <!-- Google Connect (Calendar + Gmail + Contacts) -->
+        <div class="google-connect" id="googleConnect">
+            <button id="googleSignInBtn" class="google-btn">
+                <span>📅</span> Connect Google
+            </button>
+            <p id="googleStatus" class="google-status"></p>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
