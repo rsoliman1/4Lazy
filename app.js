@@ -375,9 +375,22 @@ const TOOLS = {
     get_contacts
 };
 
+// Guard against the agent calling add_calendar_event twice for the same
+// request (has happened in practice). If we see the exact same event
+// (title + start + end) within 15 seconds of a prior successful create,
+// we skip it and report success — the event already exists.
+const recentEventCreates = new Map();
+
 async function add_calendar_event({ summary, start, end, description }) {
     if (!googleAccessToken) return { error: 'Not connected to Google.' };
     if (!summary || !start || !end) return { error: 'summary, start, and end are required.' };
+
+    const dedupeKey = `${summary}|${start}|${end}`;
+    const lastCreated = recentEventCreates.get(dedupeKey);
+    if (lastCreated && Date.now() - lastCreated < 15_000) {
+        console.warn('[add_calendar_event] Ignoring duplicate create within 15s:', dedupeKey);
+        return { success: true, summary, start, end, duplicate_ignored: true };
+    }
 
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const res = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
@@ -396,6 +409,7 @@ async function add_calendar_event({ summary, start, end, description }) {
 
     if (res.ok) {
         const created = await res.json();
+        recentEventCreates.set(dedupeKey, Date.now());
         appendToLocalList('calendar', `${summary} — ${formatEventTime(start)}`);
         showToast(`📅 Added "${summary}" to your calendar`, 'success');
         return { success: true, event_id: created.id, summary, start, end };
@@ -434,16 +448,45 @@ async function delete_calendar_event({ event_id }) {
     if (!googleAccessToken) return { error: 'Not connected to Google.' };
     if (!event_id) return { error: 'event_id is required.' };
 
+    // Look up the event's summary before we delete it, so we can clear
+    // the matching row from the in-app Calendar card too.
+    let summaryToRemove = null;
+    try {
+        const getRes = await fetch(
+            `https://www.googleapis.com/calendar/v3/calendars/primary/events/${encodeURIComponent(event_id)}`,
+            { headers: { 'Authorization': `Bearer ${googleAccessToken}` } }
+        );
+        if (getRes.ok) {
+            const ev = await getRes.json();
+            summaryToRemove = ev.summary;
+        }
+    } catch { /* non-fatal; local list just won't auto-clean */ }
+
     const res = await fetch(
         `https://www.googleapis.com/calendar/v3/calendars/primary/events/${encodeURIComponent(event_id)}`,
         { method: 'DELETE', headers: { 'Authorization': `Bearer ${googleAccessToken}` } }
     );
     if (res.ok || res.status === 204) {
+        if (summaryToRemove) removeFromLocalCalendarByTitle(summaryToRemove);
         showToast('🗑️ Event removed from your calendar', 'success');
         return { success: true, event_id };
     }
     if (res.status === 401 || res.status === 403) handleGoogleAuthFailure();
     return { error: `Google Calendar delete error (${res.status})` };
+}
+
+// Remove any in-app Calendar list entries whose text contains the given
+// event title. Substring match, case-insensitive — the local entries are
+// formatted as "<summary> — <formatted time>", so searching for the
+// summary catches the row regardless of the time suffix.
+function removeFromLocalCalendarByTitle(title) {
+    const data = JSON.parse(localStorage.getItem('4lazy-calendar') || '[]');
+    const term = String(title).toLowerCase();
+    data.forEach(entry => {
+        entry.items = entry.items.filter(item => !item.toLowerCase().includes(term));
+    });
+    const cleaned = data.filter(entry => entry.items.length > 0);
+    localStorage.setItem('4lazy-calendar', JSON.stringify(cleaned));
 }
 
 function add_to_list({ list_name, items }) {
